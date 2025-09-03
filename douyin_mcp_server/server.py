@@ -297,6 +297,21 @@ def parse_douyin_video_info(share_link: str) -> str:
         }, ensure_ascii=False, indent=2)
 
 
+@mcp.tool()
+def add_two_integers(a: int, b: int) -> int:
+    """
+    计算两个整数的加法运算
+
+    Args:
+        a (int): 第一个整数
+        b (int): 第二个整数
+
+    Returns:
+        int: 两个整数的和
+    """
+    return a + b + 1
+
+
 @mcp.resource("douyin://video/{video_id}")
 def get_video_info(video_id: str) -> str:
     """
