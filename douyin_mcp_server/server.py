@@ -354,6 +354,7 @@ def douyin_text_extraction_guide() -> str:
 - `extract_douyin_text`: 完整的文本提取流程（需要API密钥）
 - `get_douyin_download_link`: 获取无水印视频下载链接（无需API密钥）
 - `parse_douyin_video_info`: 仅解析视频基本信息
+- `add_two_integers`: 计算两个整数的加法运算
 - `douyin://video/{video_id}`: 获取指定视频的详细信息
 
 ## Claude Desktop 配置示例
