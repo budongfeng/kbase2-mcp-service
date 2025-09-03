@@ -15,6 +15,7 @@ import json
 import requests
 import tempfile
 import asyncio
+import time
 from pathlib import Path
 from typing import Optional, Tuple
 import ffmpeg
@@ -282,11 +283,13 @@ def parse_douyin_video_info(share_link: str) -> str:
     try:
         processor = DouyinProcessor("")  # 不需要API密钥来解析链接
         video_info = processor.parse_share_url(share_link)
-        
+
+        data = fetch_external_data(1,5)
         return json.dumps({
             "video_id": video_info["video_id"],
             "title": video_info["title"],
             "download_url": video_info["url"],
+            "test_data": data,
             "status": "success"
         }, ensure_ascii=False, indent=2)
         
@@ -310,6 +313,78 @@ def add_two_integers(a: int, b: int) -> int:
         int: 两个整数的和
     """
     return a + b + 1
+
+
+@mcp.tool()
+def fetch_external_data(page_num: int = 1, page_size: int = 20) -> str:
+    """
+    获取外部数据
+    
+    参数:
+    - page_num: 页码，默认为1
+    - page_size: 每页数量，默认为20
+    
+    返回:
+    - API响应结果的字符串形式
+    """
+    import requests
+    
+    url = f'https://v2.fangcloud.com/aiapi/knowledgeDataCollect/externaDataCollectpage?_={int(time.time()*1000)}'
+    
+    headers = {
+        'Accept': '*/*',
+        'Accept-Language': 'zh-CN',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/json',
+        'Origin': 'https://v2.fangcloud.com',
+        'Pragma': 'no-cache',
+        'Referer': 'https://v2.fangcloud.com/console/gather/external',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36',
+        'X-Requested-With': 'XMLHttpRequest',
+        'sec-ch-ua': '"Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"'
+    }
+    
+    # 注意：实际使用时需要替换为有效的Cookie
+    cookies = {
+        '__guid': '67627350.493078613471557440.1747312329462.944',
+        'device_token': '0c4be4b62e5c22af69b481e136ea5cb6',
+        '__root_domain_v': '.fangcloud.com',
+        '_qddaz': 'QD.553549197110339',
+        '_c_WBKFRo': '7bGUYvSfNsAJHOxfvYNeQtvxJPttAq5VkYL43LtB',
+        'Hm_lvt_05713beafc7f9b26f552d1d194d915d2': '1752138521',
+        'Qs_lvt_389248': '1752138520,1752231249',
+        'Qs_pv_389248': '153042335511384480,1997181492032253000',
+        'lang': 'zh-CN',
+        '__DC_sid': '67627350.1390666347727731000.1756887501908.5254',
+        'Hm_lvt_762d2bc251bef4b42a758268dc7edda3': '1755670682,1756436725,1756799141,1756887504',
+        'HMACCOUNT': '7C58F7722482AAD1',
+        'LoginRedirect': 'https%3A%2F%2Fv2.fangcloud.com%2Fdesktop%2Faihome%2Fqa',
+        'session_sso_cookie_name': '57f7c047bb8342b98b4b97ad451e63a0',
+        'fc_session': 'eyJpdiI6ImltakVySHhNZ1BPNmxjeFM5aXJmN1E9PSIsInZhbHVlIjoiK3dNOVQ2YUhMaEowNG5MbHNmb1NualJjbFwvK3ZyXC9hNlZNaldBRjByQzJNUkZaV0t0dmhXQ0NXc1ZYdHJzcHltWG9oS2pCeDlQODBPRVBoNWZFZGYxUT09IiwibWFjIjoiN2E5YjhlMmU3MDc4ZjA0M2ZmNGQ0ZDBjNjczZjlmMTY5OWYyZDhmZjE4MDUxMzFlOTFiZDdmMmYzNTg5MDQ3NiJ9',
+        'is_ai_cloud_enabled': 'always',
+        '__DC_monitor_count': '7',
+        '__DC_gid': '67627350.696092156.1747312329462.1756887511169.729',
+        'XSRF-TOKEN': 'ewogICJpdiIgOiAidEFLNWxMVkQyRHo0RW5aYW1DeENaQT09IiwKICAidmFsdWUiIDogIkpCVjl4NHVlNUtBdFk4QXEwU2tTY0NLaUp1OFQ2ZDlMSHpsa1V0OGlUK2NUT3JJTzQ0d2V3K05zMFBqazZqQUZmTTZOV0xOUkNIeDFEeTNueTA3UzBnPT0iLAogICJtYWMiIDogIjBkOGQyZjBmMzA0NmZlMDRkNTQwNmMxMzcwNDEyMmY0Y2VhM2JkODU2MDA2MjMxYjc0MjVjMGFhMzY5YzM0N2QiCn0=',
+        'Hm_lpvt_762d2bc251bef4b42a758268dc7edda3': '1756887512'
+    }
+    
+    data = {
+        "pageNum": page_num,
+        "pageSize": page_size
+    }
+    
+    try:
+        response = requests.post(url, headers=headers, cookies=cookies, json=data)
+        response.raise_for_status()
+        return response.text
+    except Exception as e:
+        return f"请求失败: {str(e)}"
 
 
 @mcp.resource("douyin://video/{video_id}")
@@ -355,6 +430,7 @@ def douyin_text_extraction_guide() -> str:
 - `get_douyin_download_link`: 获取无水印视频下载链接（无需API密钥）
 - `parse_douyin_video_info`: 仅解析视频基本信息
 - `add_two_integers`: 计算两个整数的加法运算
+- `fetch_external_data`: 获取外部数据（需要有效Cookie）
 - `douyin://video/{video_id}`: 获取指定视频的详细信息
 
 ## Claude Desktop 配置示例
@@ -363,7 +439,7 @@ def douyin_text_extraction_guide() -> str:
   "mcpServers": {
     "douyin-mcp": {
       "command": "uvx",
-      "args": ["douyin-mcp-server"],
+      "args": ["kkse-mcp-server"],
       "env": {
         "DASHSCOPE_API_KEY": "your-dashscope-api-key-here"
       }

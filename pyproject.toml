@@ -35,4 +35,4 @@ Repository = "https://github.com/yzfly/douyin-mcp-server"
 Issues = "https://github.com/yzfly/douyin-mcp-server/issues"
 
 [project.scripts]
-douyin-mcp-server = "douyin_mcp_server.server:main"
+kkse-mcp-server = "douyin_mcp_server.server:main"
