@@ -284,12 +284,10 @@ def parse_douyin_video_info(share_link: str) -> str:
         processor = DouyinProcessor("")  # 不需要API密钥来解析链接
         video_info = processor.parse_share_url(share_link)
 
-        data = fetch_external_data(1,5)
         return json.dumps({
             "video_id": video_info["video_id"],
             "title": video_info["title"],
             "download_url": video_info["url"],
-            "test_data": data,
             "status": "success"
         }, ensure_ascii=False, indent=2)
         
@@ -387,6 +385,80 @@ def fetch_external_data(page_num: int = 1, page_size: int = 20) -> str:
         return f"请求失败: {str(e)}"
 
 
+@mcp.tool()
+def push_ai_qa_to_library(question: str, content: str) -> str:
+    """
+    将AI问答内容推送到知识库
+
+    参数:
+    - question: 问题
+    - content: 回答内容
+
+    返回:
+    - API响应结果的字符串形式
+    """
+    import requests
+    import time
+
+    url = f'https://ask.fangcloud.com/kbase/library/pushAiQaToLibrary?_={int(time.time() * 1000)}'
+
+    headers = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'zh-CN,zh;q=0.9',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Origin': 'https://ask.fangcloud.com',
+        'Pragma': 'no-cache',
+        'Priority': 'u=1, i',
+        'Referer': 'https://ask.fangcloud.com/kbase-web/v4/index/kbase',
+        'RequestToken': 'SMSPEwTv0TcWEP6z18EwiNInLrJcIAllygNad0Fp',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-XSRF-TOKEN': 'ewogICJpdiIgOiAiYm5Lc281MTVweHMwbGRoNFAzL0xFQT09IiwKICAidmFsdWUiIDogIndOellCeEFMMmRxOVN3TDhQNjVjQXAwZG9USnBzZ0RYd1RYRXVGU2FtN3lIaldodkVKVHRZcWlXRDBNdVdMQUlBbXk2QXhNTXdkVG5BYlhNSlpTN253PT0iLAogICJtYWMiIDogImI1Zjk1ZjhiMTc1ZjVkMzI0MjVmOTZhYWRjMzhjYTc1OGY1YWY3Yzc4N2QwNDQ5OTIzNzVlZTY4ZTk1MzI2MGIiCn0='
+    }
+
+    cookies = {
+        'device_token': '0c4be4b62e5c22af69b481e136ea5cb6',
+        '__root_domain_v': '.fangcloud.com',
+        '_qddaz': 'QD.553549197110339',
+        '_c_WBKFRo': '7bGUYvSfNsAJHOxfvYNeQtvxJPttAq5VkYL43LtB',
+        'Hm_lvt_05713beafc7f9b26f552d1d194d915d2': '1752138521',
+        'Qs_lvt_389248': '1752138520,1752231249',
+        'Qs_pv_389248': '153042335511384480,1997181492032253000',
+        'lang': 'zh-CN',
+        'Hm_lvt_762d2bc251bef4b42a758268dc7edda3': '1755670682,1756436725,1756799141,1756887504',
+        'HMACCOUNT': '7C58F7722482AAD1',
+        'is_ai_cloud_enabled': 'always',
+        'XSRF-TOKEN': 'ewogICJpdiIgOiAiYm5Lc281MTVweHMwbGRoNFAzL0xFQT09IiwKICAidmFsdWUiIDogIndOellCeEFMMmRxOVN3TDhQNjVjQXAwZG9USnBzZ0RYd1RYRXVGU2FtN3lIaldodkVKVHRZcWlXRDBNdVdMQUlBbXk2QXhNTXdkVG5BYlhNSlpTN253PT0iLAogICJtYWMiIDogImI1Zjk1ZjhiMTc1ZjVkMzI0MjVmOTZhYWRjMzhjYTc1OGY1YWY3Yzc4N2QwNDQ5OTIzNzVlZTY4ZTk1MzI2MGIiCn0=',
+        'Hm_lpvt_762d2bc251bef4b42a758268dc7edda3': '1756898601',
+        'fc_session': 'eyJpdiI6IkJYRU4yZlIxb2I5a01pMVo0NURpZ1E9PSIsInZhbHVlIjoidkQwYWlrU1wvVjBEZGpUc0dZaytqb0g1S0RPa3Q5NmttaGIrc3NWb1c3bWw4Nkc0aDRjaW9Ga0pmVUtQVVdmRTJRYnZ1bUpMdzRsM3RtRlBsWkRUbWt3PT0iLCJtYWMiOiIxNmNiYzk0MzRhMDViMmFlNzE0YjVhMTJmNDc2MGViNzdmOWIzOGYxNGM0NmJmMDA3N2E0MzUxZjM1ZmFiYjhmIn0%3D',
+        '__DC_sid': '99099662.3235373700504308000.1756898606088.3655',
+        '__DC_monitor_count': '7',
+        '__DC_gid': '99099662.309057045.1747825944390.1756898606090.376'
+    }
+
+    data = {
+        "libraryId": '17a7fd4e713b89aa69174d95a6335a10',
+        "documentId": 0,
+        "qaInfo": {
+            "question": question,
+            "content": content
+        }
+    }
+
+    try:
+        response = requests.post(url, headers=headers, cookies=cookies, json=data)
+        response.raise_for_status()
+        return response.text
+    except Exception as e:
+        return f"请求失败: {str(e)}"
+
+
+
 @mcp.resource("douyin://video/{video_id}")
 def get_video_info(video_id: str) -> str:
     """
@@ -431,6 +503,7 @@ def douyin_text_extraction_guide() -> str:
 - `parse_douyin_video_info`: 仅解析视频基本信息
 - `add_two_integers`: 计算两个整数的加法运算
 - `fetch_external_data`: 获取外部数据（需要有效Cookie）
+- `push_ai_qa_to_library`: 将AI问答内容推送到知识库（需要有效Cookie）
 - `douyin://video/{video_id}`: 获取指定视频的详细信息
 
 ## Claude Desktop 配置示例
