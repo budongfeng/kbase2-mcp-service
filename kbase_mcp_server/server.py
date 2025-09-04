@@ -29,7 +29,7 @@ from mcp.server.fastmcp import Context
 
 
 # 创建 MCP 服务器实例
-mcp = FastMCP("Douyin MCP Server", 
+mcp = FastMCP("kbase-mcp-server",
               dependencies=["requests", "ffmpeg-python", "tqdm", "dashscope"])
 
 # 请求头，模拟移动端访问
