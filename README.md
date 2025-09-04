@@ -187,7 +187,7 @@ pip install -e .
 
 ```bash
 # 启动服务器进行测试
-python -m douyin_mcp_server.server
+python -m kbase_mcp_server.server
 ```
 
 ### Claude Desktop 本地开发配置
@@ -205,7 +205,7 @@ python -m douyin_mcp_server.server
         "/path/to/your/douyin-mcp-server",
         "python",
         "-m",
-        "douyin_mcp_server"
+        "kbase_mcp_server"
       ],
       "env": {
         "DASHSCOPE_API_KEY": "your-api-key-here"

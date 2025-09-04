@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "douyin-mcp-server"
+name = "kbase-mcp-server"
 version = "1.2.0"
 description = "MCP server for downloading Douyin videos and extracting text"
 readme = "README.md"
@@ -30,9 +30,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yzfly/douyin-mcp-server"
-Repository = "https://github.com/yzfly/douyin-mcp-server"
-Issues = "https://github.com/yzfly/douyin-mcp-server/issues"
+Homepage = "https://github.com/yzfly/kbase-mcp-server"
+Repository = "https://github.com/yzfly/kbase-mcp-server"
+Issues = "https://github.com/yzfly/kbase-mcp-server/issues"
 
 [project.scripts]
-kkse-mcp-server = "douyin_mcp_server.server:main"
+kkse-mcp-server = "kbase_mcp_server.server:main"
