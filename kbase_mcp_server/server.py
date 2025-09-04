@@ -431,7 +431,7 @@ def push_ai_qa_to_library(question: str, content: str) -> str:
         kbase_key = str(kbase_key)
 
     cookies = {
-        kbase_key
+        'cookie': kbase_key
     }
 
     data = {
