@@ -4,12 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "kbase-mcp-server"
-version = "1.2.0"
+version = "1.0.1"
 description = "MCP server for downloading Douyin videos and extracting text"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "yzfly", email = "yz.liu.me@gmail.com"}
+    {name = "wjx", email = "wjx@gmail.com"}
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -29,10 +29,6 @@ dependencies = [
     "dashscope",
 ]
 
-[project.urls]
-Homepage = "https://github.com/yzfly/kbase-mcp-server"
-Repository = "https://github.com/yzfly/kbase-mcp-server"
-Issues = "https://github.com/yzfly/kbase-mcp-server/issues"
 
 [project.scripts]
-kkse-mcp-server = "kbase_mcp_server.server:main"
+kbase-mcp-server = "kbase_mcp_server.server:main"

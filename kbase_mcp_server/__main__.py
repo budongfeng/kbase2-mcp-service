@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-抖音MCP服务器入口点
+知识库MCP服务器入口点
 """
 
 from .server import main
