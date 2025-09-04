@@ -426,6 +426,10 @@ def push_ai_qa_to_library(question: str, content: str) -> str:
     if not kbase_key:
         raise ValueError("未设置环境变量 KBASE_KEY，请在配置中添加知识库密钥")
 
+    if not isinstance(kbase_key, str):
+        # 如果是集合或其他类型，转换为字符串
+        kbase_key = str(kbase_key)
+
     cookies = {
         kbase_key
     }
