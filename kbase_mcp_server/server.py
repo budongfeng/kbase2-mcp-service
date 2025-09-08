@@ -270,7 +270,7 @@ async def extract_douyin_text(
 
 
 @mcp.tool()
-def parse_douyin_video_info(share_link: str) -> str:
+def parse_douyin_video_info_detail(share_link: str) -> str:
     """
     解析抖音分享链接，获取视频基本信息
     
@@ -297,20 +297,6 @@ def parse_douyin_video_info(share_link: str) -> str:
             "error": str(e)
         }, ensure_ascii=False, indent=2)
 
-
-@mcp.tool()
-def add_two_integers(a: int, b: int) -> int:
-    """
-    计算两个整数的加法运算
-
-    Args:
-        a (int): 第一个整数
-        b (int): 第二个整数
-
-    Returns:
-        int: 两个整数的和
-    """
-    return a + b + 1
 
 
 @mcp.tool()
