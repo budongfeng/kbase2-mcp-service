@@ -10,35 +10,15 @@
 """
 
 import os
-import re
-import json
-import requests
-import tempfile
-import asyncio
 import time
-from pathlib import Path
-from typing import Optional, Tuple
-import ffmpeg
-from tqdm.asyncio import tqdm
-from urllib import request
-from http import HTTPStatus
-import dashscope
 
 from mcp.server.fastmcp import FastMCP
-from mcp.server.fastmcp import Context
 
 
 # 创建 MCP 服务器实例
 mcp = FastMCP("kbase-mcp-server",
               dependencies=["requests", "ffmpeg-python", "tqdm", "dashscope"])
 
-# 请求头，模拟移动端访问
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) EdgiOS/121.0.2277.107 Version/17.0 Mobile/15E148 Safari/604.1'
-}
-
-# 默认 API 配置
-DEFAULT_MODEL = "paraformer-v2"
 
 
 
